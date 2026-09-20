@@ -1,0 +1,37 @@
+# Scheduled Commercial Bank (SCB) system-level Gross NPA ratio -- actual outcomes plus
+# RBI's own published stress-test projections -- spanning the IL&FS (2018-19) and COVID
+# (2020-21) windows.
+#
+# PROVENANCE: RBI's Financial Stability Report (FSR) primary PDFs are CAPTCHA-blocked
+# from automated fetch (confirmed independently twice, in two separate sessions). Every
+# number below is corroborated by at least two independent secondary sources that cite
+# the FSR directly on its release day (Business Standard, current-affairs summary sites),
+# not verified against the RBI PDF's own text directly. Labeled "secondary" throughout,
+# matching this project's disclosed/secondary/assumption convention (see CONTEXT.md).
+
+actual_gnpa_pct:
+  "2018-03": 11.5   # secondary: Business Standard "Statsguru," citing FSR
+  "2018-09": 10.8   # secondary: Business Standard, citing FSR
+  "2019-09": 9.3    # secondary: Indian Finance Association analysis PDF, citing FSR Dec 2019 (Issue 20)
+  "2020-03": 8.5    # secondary: FSR July 2020 (Issue 21) -- corroborated by 2 independent web searches
+  "2021-03": 7.48   # secondary: actual outcome, Business Standard / PIB
+  "2021-09": 6.9    # secondary: actual outcome, Business Standard / PIB
+
+rbi_stress_projections:
+  - projection_made_in: "FSR July 2020 (Issue 21)"
+    as_of_date: "2020-03"
+    as_of_gnpa_pct: 8.5
+    target_date: "2021-03"
+    baseline_pct: 12.5
+    severe_pct: 14.7
+  - projection_made_in: "FSR January 2021"
+    target_date: "2021-09"
+    baseline_pct: 13.5
+    severe_pct: 14.8
+
+known_gaps:
+  - "NBFC-sector-specific GNPA has only one clean secondary-sourced point (March 2020, 6.3%);
+     conflicting March 2019 figures (5.3% vs 6.1% in different secondary reports) were not
+     reconciled -- left as a gap, not guessed at."
+  - "No NBFC-sector-specific stress-test projection found; the RBI stress tests found so far
+     are SCB (bank) system-level only, not NBFC-specific."

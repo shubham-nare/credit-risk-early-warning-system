@@ -1,0 +1,32 @@
+# Real, well-documented policy interventions introduced specifically in response to
+# COVID-19 that a pre-COVID macro-GNPA relationship (and RBI's own July 2020 stress test)
+# would not have had reason to model. Used to help explain, not to precisely attribute,
+# why actual GNPA came in far below both a naive trend extrapolation and RBI's own
+# official projection -- see analysis.py's docstring for exactly how this is used.
+
+loan_moratorium:
+  start: "2020-03-01"
+  end: "2020-08-31"
+  duration_months: 6
+  description: >
+    RBI permitted banks to grant a moratorium on term-loan instalments: an initial
+    3 months (Mar-May 2020), extended by a further 3 months (Jun-Aug 2020).
+  source: secondary, multiple corroborating news sources (Business Standard and others)
+
+eclgs:
+  launched: "2020-05"
+  description: "Emergency Credit Line Guarantee Scheme, part of the Atmanirbhar Bharat package."
+  disbursed_milestones_cr:
+    "2020-08-18": 100000     # secondary: PIB, "more than Rs 1 lakh crore disbursed"
+    "2022-08-05": 367000     # secondary: eventual cumulative total, well past this project's window
+  source: secondary, PIB press releases
+
+aggregate_credit_context:
+  non_food_gross_bank_credit_outstanding_cr:
+    "2020-03": 9263000   # Rs 92.63 lakh crore, secondary: Business Standard, citing RBI data
+  note: >
+    ECLGS's Aug-2020 disbursed amount (Rs 1 lakh crore) was roughly 1% of the total
+    outstanding non-food bank credit book at that time -- a real, if rough, sense of scale
+    for how large the specific COVID support measures were relative to the whole system.
+    This is offered as a plausible contributing factor to the forecast miss, not a proven
+    causal attribution -- no causal claim is made or computable from this data alone.

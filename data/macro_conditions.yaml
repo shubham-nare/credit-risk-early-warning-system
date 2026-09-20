@@ -1,0 +1,29 @@
+# Real macro conditioning variables, 2018-2021. Repo rate is well-corroborated (multiple
+# independent sources agree exactly). GDP growth has a known revision ambiguity for the
+# FY2020-21 full year (-7.3% vs -6.6% reported in different vintages/sources) -- both are
+# recorded, not reconciled, consistent with this project's "state the gap, don't guess" rule.
+
+repo_rate_pct:
+  "2018-02-07": 6.00
+  "2018-06-06": 6.25
+  "2018-08-01": 6.50
+  "2019-02-07": 6.25
+  "2019-04-04": 6.00
+  "2019-06-06": 5.75
+  "2019-08-07": 5.40
+  "2019-12-05": 5.15
+  "2020-03-27": 4.40
+  "2020-05-22": 4.00   # held through at least Feb 2021
+
+gdp_growth_pct:
+  fy2019_20_full_year: 4.0              # ~11-year low at the time
+  fy2020_21_q1: -23.13                  # COVID collapse quarter
+  fy2020_21_full_year_variant_a: -7.3   # one reported vintage
+  fy2020_21_full_year_variant_b: -6.6   # a different reported vintage -- not reconciled
+  fy2021_22_full_year: 8.7
+
+source_note: >
+  All secondary-sourced (news coverage of RBI/MOSPI releases), not pulled from a primary
+  RBI/MOSPI bulk-data file directly -- data.gov.in's OGD API returned HTTP 403 and RBI's
+  DBIE portal requires interactive navigation not yet completed. A follow-up pass could
+  replace these with primary-sourced figures; noted as a limitation, not hidden.

@@ -1,0 +1,15 @@
+# Bajaj Finance Ltd. -- real, company-disclosed quarterly GNPA/NNPA, sourced from its own
+# investor-presentation PDFs (e.g. cms-assets.bajajfinserv.in/.../bajaj-finance-q3-...pdf,
+# bajajfinserv.in/corporate/media/investor-presentation/FY19/...). Company-disclosed, not
+# secondary commentary -- the strongest-provenance series in this project.
+#
+# CAVEAT, stated by Bajaj Finance itself: NPA recognition norms changed over this window --
+# a 3-months-overdue basis through Nov 2021, then a 91-days-past-due basis from Dec 2021
+# onward. This series is NOT perfectly apples-to-apples across that boundary; stated
+# plainly here rather than smoothed over.
+
+quarterly:
+  "2019-03": {gnpa_pct: 1.54, nnpa_pct: 0.63}
+  "2020-03": {gnpa_pct: 1.61, nnpa_pct: 0.65}
+  "2021-03": {gnpa_pct: 1.79, nnpa_pct: 0.75}
+  "2021-06": {gnpa_pct: 2.96, nnpa_pct: 1.46}
