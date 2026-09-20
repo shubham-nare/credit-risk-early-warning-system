@@ -1,0 +1,27 @@
+# RBI's COVID-19 Resolution Framework (1.0, Aug 2020; 2.0, May 2021) -- real, disclosed
+# ACTUAL restructuring outcomes, not the pre-implementation analyst estimates that
+# circulated in 2020 (India Ratings projected 7.7% of total credit; ICRA projected 5-8%
+# of the loan book -- both far above what actually happened, a smaller, secondary
+# "forecast miss" story in its own right, kept here for context, not used in the model).
+
+actual_restructured_pct_of_total_advances:
+  "2021-03": 0.9   # secondary: Business Standard "Statsguru," citing RBI FSR
+  "2021-09": 1.5   # secondary: Business Standard, citing RBI FSR
+
+sector_detail:
+  msme_and_retail_2021_09: 2.4   # pct of sectoral advances, MSME + retail restructured under RF 2.0
+  borrower_accounts_covered_pct: 80   # pct of invoked accounts actually covered under RF 2.0, sector-specific
+
+pre_implementation_estimates_for_context:
+  india_ratings_2020: 7.7   # pct of total credit as of March 2020, projected
+  icra_2020_range: [5, 8]   # pct of loan book, projected
+  note: >
+    Both estimates were made before the framework was implemented and both substantially
+    overshot the real outcome -- included as context (a second, smaller instance of the
+    same "forecast vs. reality" pattern this project is built around), not used in
+    shadow_gnpa's calculation.
+
+known_gaps:
+  - "No restructuring percentage found for the immediate 2020 window (RF 1.0 alone,
+     before RF 2.0 in May 2021) -- only the cumulative March-2021 and September-2021
+     outcomes were found."

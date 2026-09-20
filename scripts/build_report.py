@@ -4,10 +4,12 @@ from __future__ import annotations
 
 import datetime as dt
 
-from credit_risk.analysis import compute_forecast_errors, eclgs_scale_vs_credit_book, naive_linear_trend_projection
+from credit_risk.analysis import (
+    compute_forecast_errors, compute_shadow_gnpa, eclgs_scale_vs_credit_book, naive_linear_trend_projection,
+)
 from credit_risk.data_loader import (
     load_bajaj_finance, load_iifl_finance, load_nbfc_gnpa, load_nbfc_stress_test,
-    load_policy_interventions, load_scb_gnpa,
+    load_policy_interventions, load_resolution_framework, load_scb_gnpa,
 )
 
 
@@ -65,8 +67,19 @@ def main() -> None:
     print(f"    -> a real company disclosed {fb['implied_gnpa_suppression_pp']}pp of GNPA suppression from this "
           f"one mechanism alone -- direct support for the interpretation above, not just a plausible guess")
 
+    print("\n=== Shadow GNPA: how far can real restructuring data close RBI's forecast gap? ===")
+    rf = load_resolution_framework()
+    for target, proj_key in ((dt.date(2021, 3, 1), 0), (dt.date(2021, 9, 1), 1)):
+        proj = scb.stress_projections[proj_key]
+        restructured = rf.actual_restructured_pct[target]
+        for k in (0.0, 0.5, 1.0):
+            result = compute_shadow_gnpa(scb.actual_gnpa_pct[target], restructured, k, proj.baseline_pct, target.isoformat())
+            print(f"  {target} k={k:.1f}: shadow GNPA {result.shadow_gnpa_pct}% "
+                  f"(closes {result.gap_to_rbi_baseline_explained_pct}% of the gap to RBI's {proj.baseline_pct}% baseline)")
+    print("  -> even at k=1.0, restructuring alone cannot come close to explaining RBI's forecast miss")
+
     print("\n=== Known gaps, stated plainly ===")
-    for gap in scb.known_gaps + nbfc.known_gaps:
+    for gap in scb.known_gaps + nbfc.known_gaps + rf.known_gaps:
         print(f"  - {gap}")
 
 

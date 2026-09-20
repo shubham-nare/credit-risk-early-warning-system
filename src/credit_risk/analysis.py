@@ -99,6 +99,46 @@ class PolicyScaleContext:
     eclgs_share_of_credit_book_pct: float
 
 
+@dataclass(frozen=True)
+class ShadowGNPAResult:
+    date: str
+    reported_gnpa_pct: float
+    restructured_pct: float
+    assumed_default_share_k: float          # 0.0 to 1.0
+    shadow_gnpa_pct: float
+    rbi_projected_baseline_pct: float | None
+    gap_to_rbi_baseline_explained_pct: float | None  # what share of (projected - reported) this closes
+
+
+def compute_shadow_gnpa(reported_gnpa_pct: float, restructured_pct: float, k: float,
+                        rbi_projected_baseline_pct: float | None = None, date: str = "") -> ShadowGNPAResult:
+    """Shadow GNPA = reported GNPA + k * restructured-book %, where k (0-1) is the
+    assumed share of the restructured/forborne book that would eventually have gone bad
+    without forbearance. Deliberately a sensitivity range, not a point estimate: there is
+    no real data in this project that pins down a single "true" k.
+
+    IMPORTANT, checked with real numbers before this was built: at k=1.0 (the most
+    extreme possible assumption -- every restructured rupee counted as bad), this closes
+    at most ~18-23% of the gap between RBI's own COVID stress-test baseline and the real
+    reported outcome (see tests). Formal restructuring alone does not explain RBI's
+    forecast miss. The remaining gap most plausibly reflects the much larger and harder-
+    to-quantify blanket loan moratorium (which suspended overdue-classification for far
+    more borrowers than formally restructured their loans) and/or genuine economic
+    resilience -- this module does not claim to apportion between those two, since no
+    real data here supports doing so precisely.
+    """
+    if not 0 <= k <= 1:
+        raise ValueError("k must be between 0 and 1")
+    shadow = reported_gnpa_pct + k * restructured_pct
+    gap_explained = None
+    if rbi_projected_baseline_pct is not None:
+        gap = rbi_projected_baseline_pct - reported_gnpa_pct
+        if gap != 0:
+            gap_explained = round((shadow - reported_gnpa_pct) / gap * 100, 1)
+    return ShadowGNPAResult(date, reported_gnpa_pct, restructured_pct, k, round(shadow, 3),
+                            rbi_projected_baseline_pct, gap_explained)
+
+
 def eclgs_scale_vs_credit_book(policy: dict) -> PolicyScaleContext:
     """A real, if rough, sense of scale for how large COVID-specific credit support was
     relative to the whole banking system -- offered as a plausible contributing factor to

@@ -100,3 +100,15 @@ def load_iifl_finance(path: Path = DATA_DIR / "iifl_finance_gnpa.yaml") -> IIFLF
     raw = yaml.safe_load(open(path, encoding="utf-8"))
     series = {_parse_date(k): v for k, v in raw["annual_and_quarterly"].items()}
     return IIFLFinanceGNPA(series, raw["regulatory_forbearance_evidence"])
+
+
+@dataclass(frozen=True)
+class ResolutionFrameworkData:
+    actual_restructured_pct: dict[dt.date, float]
+    known_gaps: list[str]
+
+
+def load_resolution_framework(path: Path = DATA_DIR / "resolution_framework.yaml") -> ResolutionFrameworkData:
+    raw = yaml.safe_load(open(path, encoding="utf-8"))
+    series = {_parse_date(k): v for k, v in raw["actual_restructured_pct_of_total_advances"].items()}
+    return ResolutionFrameworkData(series, raw["known_gaps"])

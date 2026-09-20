@@ -3,11 +3,11 @@ import datetime as dt
 import pytest
 
 from credit_risk.analysis import (
-    compute_forecast_errors, eclgs_scale_vs_credit_book, naive_linear_trend_projection,
+    compute_forecast_errors, compute_shadow_gnpa, eclgs_scale_vs_credit_book, naive_linear_trend_projection,
 )
 from credit_risk.data_loader import (
     load_bajaj_finance, load_iifl_finance, load_macro_conditions, load_nbfc_gnpa,
-    load_nbfc_stress_test, load_policy_interventions, load_scb_gnpa,
+    load_nbfc_stress_test, load_policy_interventions, load_resolution_framework, load_scb_gnpa,
 )
 
 
@@ -107,6 +107,42 @@ def test_nbfc_stress_test_is_a_capital_adequacy_shock_not_a_gnpa_forecast():
     # CRAR should fall monotonically as the shock gets more severe
     crars = [s["resulting_sector_crar_pct"] for s in stress["shocks"]]
     assert crars == sorted(crars, reverse=True)
+
+
+def test_shadow_gnpa_rejects_k_outside_zero_one():
+    with pytest.raises(ValueError, match="k must be between 0 and 1"):
+        compute_shadow_gnpa(7.48, 0.9, k=1.5)
+
+
+def test_shadow_gnpa_at_k_zero_equals_reported():
+    result = compute_shadow_gnpa(7.48, 0.9, k=0.0)
+    assert result.shadow_gnpa_pct == 7.48
+
+
+def test_shadow_gnpa_at_k_one_is_reported_plus_full_restructured_book():
+    result = compute_shadow_gnpa(7.48, 0.9, k=1.0)
+    assert result.shadow_gnpa_pct == pytest.approx(8.38, abs=0.01)
+
+
+def test_shadow_gnpa_honest_finding_restructuring_alone_cannot_close_rbis_forecast_gap():
+    """The real, checked result this module's docstring is built on: even at the most
+    extreme possible assumption (k=1.0), real restructuring data explains only a
+    fraction of RBI's own forecast miss -- not close to the whole gap."""
+    scb = load_scb_gnpa()
+    rf = load_resolution_framework()
+    mar21 = next(p for p in scb.stress_projections if p.target_date.isoformat() == "2021-03-01")
+    reported = scb.actual_gnpa_pct[mar21.target_date]
+    restructured = rf.actual_restructured_pct[mar21.target_date]
+
+    result = compute_shadow_gnpa(reported, restructured, k=1.0, rbi_projected_baseline_pct=mar21.baseline_pct)
+    assert result.gap_to_rbi_baseline_explained_pct < 25.0  # real result: ~17.9%, well under a quarter of the gap
+    assert result.gap_to_rbi_baseline_explained_pct > 0     # but it's not nothing -- restructuring is real
+
+
+def test_resolution_framework_data_loads_real_actual_outcomes_not_estimates():
+    rf = load_resolution_framework()
+    assert rf.actual_restructured_pct[dt.date(2021, 3, 1)] == 0.9
+    assert rf.actual_restructured_pct[dt.date(2021, 9, 1)] == 1.5
 
 
 def test_iifl_finance_regulatory_forbearance_evidence_is_internally_consistent():
