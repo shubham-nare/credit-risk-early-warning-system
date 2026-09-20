@@ -1,7 +1,10 @@
 # Real macro conditioning variables, 2018-2021. Repo rate is well-corroborated (multiple
-# independent sources agree exactly). GDP growth has a known revision ambiguity for the
-# FY2020-21 full year (-7.3% vs -6.6% reported in different vintages/sources) -- both are
-# recorded, not reconciled, consistent with this project's "state the gap, don't guess" rule.
+# independent sources agree exactly). GDP growth's earlier "-7.3% vs -6.6%" ambiguity is
+# now RESOLVED: these are two different, both-real NSO/MOSPI release vintages, not a
+# conflict -- -7.3% is the Provisional Estimate (released ~May 2021), -6.6% is the First
+# Revised Estimate (released ~Jan 2022). Both are kept, now correctly labeled by vintage,
+# since which one was "known" at a given point in time matters for this project's story
+# (RBI's stress test was written before either existed).
 
 repo_rate_pct:
   "2018-02-07": 6.00
@@ -16,14 +19,16 @@ repo_rate_pct:
   "2020-05-22": 4.00   # held through at least Feb 2021
 
 gdp_growth_pct:
-  fy2019_20_full_year: 4.0              # ~11-year low at the time
-  fy2020_21_q1: -23.13                  # COVID collapse quarter
-  fy2020_21_full_year_variant_a: -7.3   # one reported vintage
-  fy2020_21_full_year_variant_b: -6.6   # a different reported vintage -- not reconciled
+  fy2019_20_full_year_provisional: 4.0    # ~11-year low at the time; released during FY19-20
+  fy2019_20_full_year_revised: 3.7        # First Revised Estimate, released later
+  fy2020_21_q1: -23.13                    # COVID collapse quarter
+  fy2020_21_full_year_provisional: -7.3   # Provisional Estimate, released ~May 2021
+  fy2020_21_full_year_revised: -6.6       # First Revised Estimate, released ~Jan 2022
   fy2021_22_full_year: 8.7
 
 source_note: >
-  All secondary-sourced (news coverage of RBI/MOSPI releases), not pulled from a primary
-  RBI/MOSPI bulk-data file directly -- data.gov.in's OGD API returned HTTP 403 and RBI's
+  All secondary-sourced (news coverage of NSO/MOSPI releases), not pulled from a primary
+  NSO/MOSPI bulk-data file directly -- data.gov.in's OGD API returned HTTP 403 and RBI's
   DBIE portal requires interactive navigation not yet completed. A follow-up pass could
-  replace these with primary-sourced figures; noted as a limitation, not hidden.
+  replace these with primary-sourced figures; noted as a limitation, not hidden. The
+  provisional-vs-revised distinction itself, however, is well-corroborated.

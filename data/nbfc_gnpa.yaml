@@ -1,0 +1,34 @@
+# NBFC-sector aggregate Gross NPA ratio.
+#
+# PROVENANCE: the FY2014-15 through FY2018-19 annual series is PRIMARY-sourced -- read
+# directly from RBI Financial Stability Report Issue 19 (June 2019), Table 2.9, p.37, and
+# confirmed in body text para 2.54 ("GNPAs of the NBFC sector... increased from 5.8 per
+# cent in 2017-18 to 6.6 per cent in 2018-19"). Accessed via a third-party mirror (PHDCCI)
+# after RBI's own domain CAPTCHA-blocked a direct fetch.
+#
+# This resolves the earlier conflict between two secondary sources (5.3% and 6.1% both
+# claimed for "March 2019"): neither was right for that date. 6.1% turns out to be
+# FY2016-17's real figure, not FY2018-19's -- a different year, not a data error. 5.3%
+# remains unexplained and is simply dropped as incorrect.
+#
+# The FY2020-21/FY2021-22 points are secondary-sourced and, unlike most other numbers in
+# this project, single-sourced -- not independently double-corroborated. Flagged with
+# correspondingly lower confidence, not treated as equally reliable.
+
+fiscal_year_end_gnpa_pct:
+  "2015-03": {value: 4.1, provenance: primary}
+  "2016-03": {value: 4.5, provenance: primary}
+  "2017-03": {value: 6.1, provenance: primary}
+  "2018-03": {value: 5.8, provenance: primary}
+  "2019-03": {value: 6.6, provenance: primary}
+  "2021-03": {value: 6.06, provenance: secondary_single_source}
+  "2021-09": {value: 6.55, provenance: secondary_single_source}
+
+known_gaps:
+  - "Sept-2020 NBFC-sector GNPA point not found."
+  - "March-2021 and Sept-2021 points are single-sourced, not independently double-corroborated
+     like most other numbers in this project -- treat with correspondingly lower confidence."
+  - "The 6.3% figure logged elsewhere for 'Sept-2019' (in an earlier pass, secondary-sourced)
+     was not directly cross-checked against this primary table, which does not have a
+     Sept-2019 (half-year) point -- the two are not necessarily inconsistent (a slight dip
+     into FY20 H1 before finishing FY19-20 higher is plausible) but this was not confirmed."

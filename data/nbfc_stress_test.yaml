@@ -1,0 +1,26 @@
+# RBI's actual NBFC-sector stress test -- structured differently from the SCB one in
+# scb_gnpa.yaml: not a future-dated GNPA-level projection, but a capital-adequacy
+# (CRAR) sensitivity test under hypothetical NPA shocks.
+#
+# PRIMARY-sourced: RBI Financial Stability Report Issue 19 (June 2019), paragraphs
+# 2.55-2.56, p.37-38 (same PDF as nbfc_gnpa.yaml's primary series, read via a
+# third-party mirror after RBI's own domain CAPTCHA-blocked a direct fetch).
+
+as_of: "2019-03"
+baseline_sector_crar_pct: 19.5
+shocks:
+  - gnpa_shock: "+0.5 SD"
+    resulting_sector_crar_pct: 17.9
+    pct_of_companies_breaching_15pct_crar: 8
+  - gnpa_shock: "+1 SD"
+    resulting_sector_crar_pct: 15.3
+    pct_of_companies_breaching_15pct_crar: 8
+  - gnpa_shock: "+3 SD"
+    resulting_sector_crar_pct: 11.7
+    pct_of_companies_breaching_15pct_crar: 13
+
+note: >
+  This is a genuinely different kind of stress test than the SCB one (capital-adequacy
+  sensitivity, not a GNPA-level forecast), so it is not directly comparable or scoreable
+  against a later "actual GNPA" the way the SCB projections are. Reported here as its own
+  real finding, not forced into the same forecast-error framework used for SCBs.

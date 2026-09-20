@@ -1,0 +1,29 @@
+# IIFL Finance -- real, company-disclosed quarterly/annual GNPA/NNPA (90-days-past-due
+# basis). PRIMARY-sourced: read directly from IIFL Finance's own Q2 FY21 investor
+# presentation (storage.googleapis.com/iifl-finance-storage/..., slides 11-13).
+
+annual_and_quarterly:
+  "2016-03": {gnpa_pct: 1.44, nnpa_pct: 0.54}
+  "2017-03": {gnpa_pct: 1.82, nnpa_pct: 0.58}
+  "2018-03": {gnpa_pct: 1.71, nnpa_pct: 0.68}
+  "2019-03": {gnpa_pct: 1.96, nnpa_pct: 0.63}
+  "2020-03": {gnpa_pct: 2.31, nnpa_pct: 0.97}
+  "2020-06": {gnpa_pct: 1.95, nnpa_pct: 0.86}   # Q1 FY21
+  "2020-09": {gnpa_pct: 1.81, nnpa_pct: 0.77}   # Q2 FY21, AS REPORTED -- see regulatory_forbearance_evidence
+
+# Directly relevant to this project's core thesis: IIFL Finance itself disclosed, in the
+# same investor presentation, exactly what its Q2 FY21 GNPA/NNPA would have been WITHOUT a
+# specific regulatory-forbearance mechanism -- real, quantified, primary-sourced evidence
+# for the "NPA recognition was suppressed by a policy intervention, not just genuinely
+# lower defaults" mechanism this project's analysis (analysis.py) offers as an
+# interpretation of why RBI's own COVID stress test overshot the real outcome.
+regulatory_forbearance_evidence:
+  as_of: "2020-09"
+  mechanism: "Supreme Court interim order (from 3 Sep 2020) barring classification of accounts as NPA after 31 Aug 2020"
+  reported_gnpa_pct: 1.81
+  reported_nnpa_pct: 0.77
+  proforma_gnpa_pct_without_the_order: 2.77
+  proforma_nnpa_pct_without_the_order: 1.29
+  implied_gnpa_suppression_pp: 0.96   # 2.77 - 1.81
+  implied_nnpa_suppression_pp: 0.52   # 1.29 - 0.77
+  source: "IIFL Finance Q2 FY21 investor presentation, proforma GNPA/NNPA slide, read directly"

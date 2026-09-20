@@ -6,7 +6,8 @@ from credit_risk.analysis import (
     compute_forecast_errors, eclgs_scale_vs_credit_book, naive_linear_trend_projection,
 )
 from credit_risk.data_loader import (
-    load_bajaj_finance, load_macro_conditions, load_policy_interventions, load_scb_gnpa,
+    load_bajaj_finance, load_iifl_finance, load_macro_conditions, load_nbfc_gnpa,
+    load_nbfc_stress_test, load_policy_interventions, load_scb_gnpa,
 )
 
 
@@ -87,3 +88,32 @@ def test_eclgs_scale_vs_credit_book_uses_real_disclosed_figures():
     assert ctx.eclgs_disbursed_by_date_cr == 100000
     assert ctx.total_credit_book_cr == 9263000
     assert ctx.eclgs_share_of_credit_book_pct == pytest.approx(1.08, abs=0.01)
+
+
+def test_nbfc_gnpa_primary_series_resolves_the_earlier_march_2019_conflict():
+    nbfc = load_nbfc_gnpa()
+    # Neither of the two originally-conflicting secondary figures (5.3%, 6.1%) is here for
+    # 2019-03: the primary table gives 6.6%, and 6.1% turns out to be 2017-03's real value.
+    assert nbfc.fiscal_year_end_gnpa_pct[dt.date(2019, 3, 1)]["value"] == 6.6
+    assert nbfc.fiscal_year_end_gnpa_pct[dt.date(2019, 3, 1)]["provenance"] == "primary"
+    assert nbfc.fiscal_year_end_gnpa_pct[dt.date(2017, 3, 1)]["value"] == 6.1
+    assert nbfc.fiscal_year_end_gnpa_pct[dt.date(2021, 9, 1)]["provenance"] == "secondary_single_source"
+
+
+def test_nbfc_stress_test_is_a_capital_adequacy_shock_not_a_gnpa_forecast():
+    stress = load_nbfc_stress_test()
+    assert stress["baseline_sector_crar_pct"] == 19.5
+    assert len(stress["shocks"]) == 3
+    # CRAR should fall monotonically as the shock gets more severe
+    crars = [s["resulting_sector_crar_pct"] for s in stress["shocks"]]
+    assert crars == sorted(crars, reverse=True)
+
+
+def test_iifl_finance_regulatory_forbearance_evidence_is_internally_consistent():
+    iifl = load_iifl_finance()
+    fb = iifl.regulatory_forbearance_evidence
+    assert fb["reported_gnpa_pct"] == iifl.series[dt.date(2020, 9, 1)]["gnpa_pct"]
+    assert fb["proforma_gnpa_pct_without_the_order"] - fb["reported_gnpa_pct"] == pytest.approx(
+        fb["implied_gnpa_suppression_pp"], abs=0.01
+    )
+    assert fb["implied_gnpa_suppression_pp"] > 0  # forbearance suppressed, not inflated, reported GNPA

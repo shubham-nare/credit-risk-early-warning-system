@@ -72,3 +72,31 @@ def load_bajaj_finance(path: Path = DATA_DIR / "bajaj_finance_gnpa.yaml") -> Baj
 
 def load_policy_interventions(path: Path = DATA_DIR / "policy_interventions.yaml") -> dict:
     return yaml.safe_load(open(path, encoding="utf-8"))
+
+
+@dataclass(frozen=True)
+class NBFCGNPAData:
+    fiscal_year_end_gnpa_pct: dict[dt.date, dict]  # {date: {"value": float, "provenance": str}}
+    known_gaps: list[str]
+
+
+def load_nbfc_gnpa(path: Path = DATA_DIR / "nbfc_gnpa.yaml") -> NBFCGNPAData:
+    raw = yaml.safe_load(open(path, encoding="utf-8"))
+    series = {_parse_date(k): v for k, v in raw["fiscal_year_end_gnpa_pct"].items()}
+    return NBFCGNPAData(series, raw["known_gaps"])
+
+
+def load_nbfc_stress_test(path: Path = DATA_DIR / "nbfc_stress_test.yaml") -> dict:
+    return yaml.safe_load(open(path, encoding="utf-8"))
+
+
+@dataclass(frozen=True)
+class IIFLFinanceGNPA:
+    series: dict[dt.date, dict[str, float]]
+    regulatory_forbearance_evidence: dict
+
+
+def load_iifl_finance(path: Path = DATA_DIR / "iifl_finance_gnpa.yaml") -> IIFLFinanceGNPA:
+    raw = yaml.safe_load(open(path, encoding="utf-8"))
+    series = {_parse_date(k): v for k, v in raw["annual_and_quarterly"].items()}
+    return IIFLFinanceGNPA(series, raw["regulatory_forbearance_evidence"])

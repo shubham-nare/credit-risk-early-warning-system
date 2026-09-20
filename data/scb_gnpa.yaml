@@ -2,12 +2,15 @@
 # RBI's own published stress-test projections -- spanning the IL&FS (2018-19) and COVID
 # (2020-21) windows.
 #
-# PROVENANCE: RBI's Financial Stability Report (FSR) primary PDFs are CAPTCHA-blocked
-# from automated fetch (confirmed independently twice, in two separate sessions). Every
-# number below is corroborated by at least two independent secondary sources that cite
-# the FSR directly on its release day (Business Standard, current-affairs summary sites),
-# not verified against the RBI PDF's own text directly. Labeled "secondary" throughout,
-# matching this project's disclosed/secondary/assumption convention (see CONTEXT.md).
+# PROVENANCE: RBI's own domain (rbidocs.rbi.org.in) CAPTCHA-blocks automated fetches of
+# these FSR PDFs (confirmed independently three times now). However, a later pass found
+# the same primary PDFs mirrored by third parties (e.g. PHDCCI) and was able to read one
+# FSR edition directly that way -- see data/nbfc_gnpa.yaml, which used this route to
+# upgrade several NBFC numbers to primary-sourced. The SCB figures below have not yet
+# been re-verified via that route; they remain corroborated by at least two independent
+# secondary sources each that cite the FSR directly on its release day (Business
+# Standard, current-affairs summary sites), not primary-verified. A worthwhile follow-up,
+# not done here since the existing secondary corroboration is already reasonably strong.
 
 actual_gnpa_pct:
   "2018-03": 11.5   # secondary: Business Standard "Statsguru," citing FSR
@@ -30,8 +33,10 @@ rbi_stress_projections:
     severe_pct: 14.8
 
 known_gaps:
-  - "NBFC-sector-specific GNPA has only one clean secondary-sourced point (March 2020, 6.3%);
-     conflicting March 2019 figures (5.3% vs 6.1% in different secondary reports) were not
-     reconciled -- left as a gap, not guessed at."
-  - "No NBFC-sector-specific stress-test projection found; the RBI stress tests found so far
-     are SCB (bank) system-level only, not NBFC-specific."
+  - "RESOLVED (see data/nbfc_gnpa.yaml): the NBFC-sector March-2019 conflict (5.3% vs 6.1%)
+     turned out to be neither figure -- the primary FSR table gives 6.6% for FY2018-19;
+     6.1% is actually FY2016-17's figure, a different year entirely."
+  - "RESOLVED (see data/nbfc_stress_test.yaml): RBI does run an NBFC-specific stress test,
+     but it is structured differently from this SCB one -- a capital-adequacy (CRAR)
+     sensitivity test under NPA shocks, not a future GNPA-level projection, so it is not
+     directly comparable/scoreable the way the SCB projections above are."
