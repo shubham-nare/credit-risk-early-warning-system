@@ -1,3 +1,4 @@
 pyyaml==6.0.3
 pytest==9.1.1
 pypdf==6.19.0
+yfinance==1.7.0  # only for scripts/fetch_event_prices.py; analysis and tests use the cached CSV

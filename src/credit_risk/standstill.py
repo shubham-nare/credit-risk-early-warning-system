@@ -15,6 +15,7 @@ from __future__ import annotations
 import datetime as dt
 import itertools
 import math
+import random
 import statistics
 from dataclasses import dataclass
 
@@ -83,8 +84,17 @@ def _sign_test_p(k: int, n: int) -> float:
 def _sign_flip_p(diffs: list[float]) -> float:
     """Exact two-sided paired permutation test: under the null that neither number is the
     better predictor, each lender's error difference is as likely positive as negative.
-    Enumerates all 2**n sign assignments, so it is exact for the small n here."""
+    Enumerates all 2**n sign assignments, so it is exact, up to n = 22 (about four million
+    assignments). Beyond that it switches to 200,000 seeded random assignments and is an
+    estimate, reproducible but no longer exact."""
     observed = abs(sum(diffs))
+    if len(diffs) > 22:
+        rng, draws = random.Random(0), 200_000
+        hits = sum(
+            abs(sum(d if rng.random() < 0.5 else -d for d in diffs)) >= observed - 1e-12
+            for _ in range(draws)
+        )
+        return hits / draws
     hits = sum(
         abs(sum(d * s for d, s in zip(diffs, signs))) >= observed - 1e-12
         for signs in itertools.product((1, -1), repeat=len(diffs))

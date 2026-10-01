@@ -16,7 +16,7 @@ DEC20, MAR21 = dt.date(2020, 12, 1), dt.date(2021, 3, 1)
 
 def test_panel_loads_with_every_quarter_traceable_to_a_source():
     panel = load_standstill_panel()
-    assert len(panel.lenders) == 11
+    assert len(panel.lenders) == 23
     kotak = panel.lenders["kotak_mahindra_bank"]
     assert kotak.quarters[DEC20].reported_gnpa == 2.26
     assert kotak.quarters[DEC20].proforma_gnpa == 3.27
@@ -72,32 +72,35 @@ def test_hidden_stress_ranks_bandhan_first_and_skips_lenders_without_proforma():
     dec = hidden_stress(panel)
     assert dec[0].lender == "Bandhan Bank"
     assert dec[0].hidden_pp == pytest.approx(6.0)
-    assert len(dec) == 11
-    # Bandhan, IDFC First and PNB have no Sep-2020 proforma on record: skipped, not guessed.
+    assert len(dec) == 23
+    # Most lenders have no Sep-2020 proforma on record (Bandhan, IDFC First, PNB, ...): skipped, not guessed.
     sep = hidden_stress(panel, dt.date(2020, 9, 1))
-    assert len(sep) == 8
+    assert len(sep) == 9
     assert "Bandhan Bank" not in {h.lender for h in sep}
 
 
 def test_catch_up_test_matches_the_real_result():
     result = catch_up_test(load_standstill_panel())
-    assert result.n == 11
-    assert result.mae_reported_pp == pytest.approx(1.53, abs=0.01)
-    assert result.mae_proforma_pp == pytest.approx(0.39, abs=0.01)
-    # Not a clean sweep: reported was the closer number for Axis Bank and SBI.
-    assert result.n_proforma_closer == 9
+    assert result.n == 22    # Shriram Transport has no Mar-2021 figure on record
+    assert result.mae_reported_pp == pytest.approx(1.54, abs=0.01)
+    assert result.mae_proforma_pp == pytest.approx(0.79, abs=0.01)
+    # Not a clean sweep: reported was the closer number for six lenders, all with large
+    # corporate books.
+    assert result.n_proforma_closer == 16
     assert {r.lender for r in result.rows if r.reported_error_pp < r.proforma_error_pp} == {
-        "Axis Bank", "State Bank of India"}
-    assert result.sign_test_p == pytest.approx(0.0654, abs=0.0005)   # NOT below 0.05
-    assert result.permutation_test_p == pytest.approx(0.0254, abs=0.0005)
-    assert result.n_outcome_below_proforma == 11
+        "Axis Bank", "State Bank of India", "Bank of Baroda", "Union Bank of India", "Yes Bank", "Karur Vysya Bank"}
+    # Neither exact test clears 0.05 on the full panel. The 11-lender pilot gave 0.39pp and
+    # a permutation p of 0.025; doubling the sample weakened it, and that is the result.
+    assert result.sign_test_p == pytest.approx(0.0525, abs=0.0005)
+    assert result.permutation_test_p == pytest.approx(0.0865, abs=0.0005)
+    assert result.n_outcome_below_proforma == 18
 
 
-def test_catch_up_result_survives_dropping_the_largest_outlier():
+def test_catch_up_direction_survives_dropping_the_largest_outlier():
     result = catch_up_test(load_standstill_panel(), exclude=("bandhan_bank",))
-    assert result.n == 10
-    assert result.mae_proforma_pp < result.mae_reported_pp / 2
-    assert result.n_proforma_closer == 8
+    assert result.n == 21
+    assert result.mae_proforma_pp < result.mae_reported_pp
+    assert result.n_proforma_closer == 15
 
 
 def test_catch_up_test_refuses_to_score_too_few_lenders():

@@ -225,6 +225,176 @@ lenders:
       "2020-12": {reported_gnpa: 12.99, proforma_gnpa: 14.71, proforma_nnpa: 5.65, src: bs_q3fy21}
       "2021-03": {reported_gnpa: 14.12, reported_nnpa: 5.73, src: bs_q4fy21}
 
+  # ---- Lenders added in the scale-up pass (2026-10-02). More of these rest on secondary
+  # ---- sources than the first eleven; each quarter's provenance says which.
+
+  bank_of_baroda:
+    name: Bank of Baroda
+    kind: public_bank
+    ticker: BANKBARODA.NS
+    sources:
+      q3fy21_ip: {provenance: primary, doc: "Performance Analysis Q3 FY2021 (investor presentation)", file: bob_q3fy21_presentation.pdf, sha256_16: 4aa1203a8285b1fc,
+                  url: "https://www.bseindia.com/xml-data/corpfiling/AttachHis/6d6313c2-0b8c-4559-b1b7-ad912ce48596.pdf"}
+      q4fy21_ip: {provenance: primary, doc: "Performance Analysis Q4 FY2021 (investor presentation)", file: bob_q4fy21_presentation.pdf, sha256_16: 686a4b75a3e9f87b,
+                  url: "https://www.bseindia.com/xml-data/corpfiling/AttachHis/7387ca1e-9e14-46a8-94b2-f813e7889e7c.pdf"}
+    quarters:
+      "2020-09": {reported_gnpa: 9.14, reported_nnpa: 2.51, src: q3fy21_ip, p: 20}
+      "2020-12": {reported_gnpa: 8.48, proforma_gnpa: 9.63, reported_nnpa: 2.39, proforma_nnpa: 3.36, src: q3fy21_ip, p: 20}
+      "2021-03": {reported_gnpa: 8.87, reported_nnpa: 3.09, src: q4fy21_ip, p: 23}
+    proforma_slippages: {"2021-03": {cr: 8637, note: "of Q4 FY21 slippage of 11,656 cr, 8,637 cr was proforma slippage reclassified", src: q4fy21_ip, p: 24}}
+
+  federal_bank:
+    name: Federal Bank
+    kind: private_bank
+    ticker: FEDERALBNK.NS
+    sources:
+      q3fy21_ip: {provenance: primary, doc: "Q3 FY21 results filing with investor presentation (20 Jan 2021)", file: federal_q3fy21_bse_filing.pdf, sha256_16: 05eac1b6e1d6db9e,
+                  url: "https://www.bseindia.com/xml-data/corpfiling/AttachHis/67502283-ed8f-49d6-a783-4d432e142e0d.pdf"}
+      bs_q4fy21: {provenance: secondary, doc: "Business Standard, Federal Bank Q4 FY21 results coverage, 17 May 2021",
+                  url: "https://www.business-standard.com/amp/article/news-cm/federal-bank-q4-pat-rises-59-yoy-to-rs-478-cr-121051700739_1.html"}
+    quarters:
+      "2020-09": {reported_gnpa: 2.84, src: q3fy21_ip, p: 8}
+      "2020-12": {reported_gnpa: 2.71, proforma_gnpa: 3.38, reported_nnpa: 0.60, proforma_nnpa: 1.14, src: q3fy21_ip, p: 3}
+      "2021-03": {reported_gnpa: 3.41, reported_nnpa: 1.19, src: bs_q4fy21}
+
+  au_small_finance_bank:
+    name: AU Small Finance Bank
+    kind: small_finance_bank
+    ticker: AUBANK.NS
+    sources:
+      q3fy21_pr: {provenance: primary, doc: "Q3 FY21 earnings press release (28 Jan 2021)", file: au_q3fy21_press_release.pdf, sha256_16: 6381d455a4f65327,
+                  url: "https://www.au.bank.in/pdfs/quaterly-reports/year-20/press-release/v2-Q3-Results-Earnings-Press-Release.pdf"}
+      bs_q4fy21: {provenance: secondary, doc: "Business Standard, AU SFB slips on asset quality concerns, 3 May 2021 (gives Mar-2021 GNPA and the Dec-2020 proforma)",
+                  url: "https://www.business-standard.com/amp/article/markets/au-small-finance-bank-slips-8-on-assets-quality-concerns-121050300246_1.html"}
+    quarters:
+      "2020-09": {reported_gnpa: 1.5, reported_nnpa: 0.5, src: q3fy21_pr, p: 4}
+      # The press release speaks of "pro-forma GNPLs" but does not print the ratio; 3.3% is from coverage.
+      "2020-12": {reported_gnpa: 1.0, reported_nnpa: 0.2, src: q3fy21_pr, p: 4, proforma_gnpa: 3.3, proforma_src: bs_q4fy21}
+      "2021-03": {reported_gnpa: 4.3, src: bs_q4fy21}
+    restructured: {"2020-12": {pct: 0.8, basis: "gross advances (restructured in Q3 FY21)", src: q3fy21_pr, p: 2}}
+
+  union_bank:
+    name: Union Bank of India
+    kind: public_bank
+    ticker: UNIONBANK.NS
+    sources:
+      q4fy21_pr: {provenance: primary, doc: "Press release, quarter and year ended 31 Mar 2021", file: union_q4fy21_press_release.pdf, sha256_16: ec0f1bec83140c07,
+                  url: "https://www.unionbankofindia.bank.in/pdf/Press%20Release%20q4%2020_21_english.pdf"}
+      bs_q3fy21: {provenance: secondary, doc: "Business Standard, Union Bank Q3 FY21 results coverage, 30 Jan 2021",
+                  url: "https://www.business-standard.com/amp/article/companies/union-bank-of-india-net-profit-falls-37-to-rs-727-crore-in-dec-quarter-121013000006_1.html"}
+    quarters:
+      "2020-12": {reported_gnpa: 13.49, reported_nnpa: 3.27, src: q4fy21_pr, p: 2, proforma_gnpa: 15.29, proforma_src: bs_q3fy21}
+      "2021-03": {reported_gnpa: 13.74, reported_nnpa: 4.62, src: q4fy21_pr, p: 2}
+
+  canara_bank:
+    name: Canara Bank
+    kind: public_bank
+    ticker: CANBK.NS
+    sources:
+      q3fy21_pr: {provenance: primary, doc: "Q3 FY21 results press release, exchange filing (27 Jan 2021)", file: canara_q3fy21_bse_filing.pdf, sha256_16: 960b1952e568c8e8,
+                  url: "https://www.bseindia.com/xml-data/corpfiling/AttachHis/5ddaa369-6d82-4077-acaf-7fd9170b7869.pdf"}
+      q4_call: {provenance: secondary, doc: "Canara Bank Q4 FY21 earnings call, as quoted in search results (the transcript URL returned 404): proforma GNPA 'about 8.95%'",
+                url: "https://canarabank.com/UploadedFiles/Pdf/Canara-Bank-Q4-FY21-Earnings-Conference-Call-Final.pdf"}
+      bs_q4fy21: {provenance: secondary, doc: "Business Standard, Canara Bank Q4 FY21 results coverage, 18 May 2021",
+                  url: "https://www.business-standard.com/amp/article/companies/canara-bank-posts-net-of-rs-1-010-cr-in-q4-after-loss-in-year-ago-quarter-121051801076_1.html"}
+    quarters:
+      "2020-09": {reported_gnpa: 8.23, src: q3fy21_pr, p: 3}
+      # An analyst note (BOB Capital, 28 Jan 2021) put the proforma at "~9%"; 8.95% is management's figure on the Q4 call.
+      "2020-12": {reported_gnpa: 7.46, src: q3fy21_pr, p: 3, proforma_gnpa: 8.95, proforma_nnpa: 3.93, proforma_src: q4_call}
+      "2021-03": {reported_gnpa: 8.93, reported_nnpa: 3.82, src: bs_q4fy21}
+
+  yes_bank:
+    name: Yes Bank
+    kind: private_bank
+    ticker: YESBANK.NS
+    sources:
+      bs_q3fy21: {provenance: secondary, doc: "Business Standard / Daily Excelsior (PTI), Yes Bank Q3 FY21 results coverage, 22 Jan 2021",
+                  url: "https://www.business-standard.com/amp/article/companies/yes-bank-net-at-rs-151-cr-in-dec-quarter-from-rs-18-560-cr-loss-a-year-ago-121012201006_1.html"}
+      bs_q4fy21: {provenance: secondary, doc: "Business Standard, Yes Bank Q4 FY21 results coverage, 30 Apr 2021",
+                  url: "https://www.business-standard.com/article/companies/yes-bank-posts-net-loss-of-rs-3-788-crore-in-q4-as-provisions-rise-121043001272_1.html"}
+    quarters:
+      # Proforma reported in coverage only as "20 per cent" -- low precision.
+      "2020-12": {reported_gnpa: 15.36, proforma_gnpa: 20.0, src: bs_q3fy21}
+      "2021-03": {reported_gnpa: 15.41, reported_nnpa: 5.88, src: bs_q4fy21}
+
+  dcb_bank:
+    name: DCB Bank
+    kind: private_bank
+    ticker: DCBBANK.NS
+    sources:
+      bobcaps_q3fy21: {provenance: secondary, doc: "BOB Capital Markets, DCB Bank Q3 FY21 result review, 23 Jan 2021 (analyst note)",
+                       url: "https://www.barodaetrade.com/Reports/DCBBank-Q3FY21ResultReview23Jan21-Research.pdf"}
+      bs_q4fy21: {provenance: secondary, doc: "Business Standard, DCB Bank Q4 FY21 results coverage, 10 May 2021",
+                  url: "https://www.business-standard.com/amp/article/news-cm/dcb-bank-gains-after-q4-pat-rises-13-yoy-to-rs-78-cr-121051000262_1.html"}
+    quarters:
+      "2020-12": {reported_gnpa: 1.96, reported_nnpa: 0.59, src: bs_q4fy21, proforma_gnpa: 3.7, proforma_src: bobcaps_q3fy21}
+      "2021-03": {reported_gnpa: 4.09, reported_nnpa: 2.29, src: bs_q4fy21}
+
+  indian_bank:
+    name: Indian Bank
+    kind: public_bank
+    ticker: INDIANB.NS
+    sources:
+      coverage: {provenance: secondary, doc: "Results coverage and an ICICI Direct note hosted on indianbank.in, as returned by search (the bank's own press-release PDFs returned HTML to a script)",
+                 url: "https://indianbank.in/wp-content/uploads/2020/09/Coverage-on-Banks-Share-price-by-ICICI-Direct-Research-dated-18.02.2021-1.pdf"}
+    quarters:
+      "2020-12": {reported_gnpa: 9.04, proforma_gnpa: 10.4, src: coverage}
+      "2021-03": {reported_gnpa: 9.85, src: coverage}
+
+  ujjivan_small_finance_bank:
+    name: Ujjivan Small Finance Bank
+    kind: small_finance_bank
+    ticker: UJJIVANSFB.NS
+    sources:
+      bs_q3fy21: {provenance: secondary, doc: "Business Standard, Ujjivan SFB Q3 FY21 results coverage, 3 Feb 2021",
+                  url: "https://www.business-standard.com/amp/article/companies/ujjivan-sfb-reports-net-loss-of-rs-279-cr-in-q3-on-higher-provisioning-121020301928_1.html"}
+      bs_q4fy21: {provenance: secondary, doc: "Business Standard, Ujjivan SFB asset-quality coverage, 19 May 2021, as returned by search (article not opened)",
+                  url: "https://www.business-standard.com/article/markets/street-concerned-over-ujjivan-sfb-s-worsened-asset-quality-stock-tanks-8-121051900292_1.html"}
+    quarters:
+      "2020-12": {reported_gnpa: 1.0, proforma_gnpa: 4.8, src: bs_q3fy21}
+      "2021-03": {reported_gnpa: 7.1, src: bs_q4fy21}
+
+  equitas_small_finance_bank:
+    name: Equitas Small Finance Bank
+    kind: small_finance_bank
+    ticker: EQUITASBNK.NS
+    sources:
+      q3fy21_pr: {provenance: primary, doc: "Press release, Q3 FY21", file: equitas_q3fy21_press_release.pdf, sha256_16: 3f7046e8145912e0,
+                  url: "https://ir.equitas.bank.in/wp-content/uploads/2021/01/ESFB-Press-Release-Q3FY21_Final.pdf"}
+      q4fy21_pr: {provenance: primary, doc: "Press release, Q4 FY21", file: equitas_q4fy21_press_release.pdf, sha256_16: 4a6f0a191751e90a,
+                  url: "https://ir.equitas.bank.in/wp-content/uploads/2021/04/ESFB-Press-Release-Q4FY21_Final.pdf"}
+    quarters:
+      "2020-09": {reported_gnpa: 2.39, src: q3fy21_pr, p: 3}
+      "2020-12": {reported_gnpa: 2.23, proforma_gnpa: 4.16, proforma_nnpa: 1.71, src: q3fy21_pr, p: 3}
+      "2021-03": {reported_gnpa: 3.59, reported_nnpa: 1.52, src: q4fy21_pr, p: 3}
+    restructured: {"2020-12": {pct: 1.97, basis: "advances (one-time restructuring)", src: q3fy21_pr, p: 3}}
+
+  shriram_transport_finance:
+    name: Shriram Transport Finance
+    kind: nbfc
+    ticker: SHRIRAMFIN.NS
+    sources:
+      q3fy21_ip: {provenance: primary, doc: "Q3 FY21 results filing with investor update (28 Jan 2021)", file: shriramtransport_q3fy21_nse_filing.pdf, sha256_16: 5bf82858fbf59ee0,
+                  url: "https://nsearchives.nseindia.com/corporate/SRTRANSFIN_28012021175746_BSENSE.pdf"}
+    quarters:
+      # Ind AS gross / net Stage 3, "as per Supreme Court order" (reported) vs without it.
+      # No Mar-2021 figure collected yet, so this lender is in the hidden-stress table only.
+      "2020-09": {reported_gnpa: 6.42, proforma_gnpa: 7.26, reported_nnpa: 3.99, proforma_nnpa: 4.51, src: q3fy21_ip, p: 12}
+      "2020-12": {reported_gnpa: 5.33, proforma_gnpa: 7.11, reported_nnpa: 3.22, proforma_nnpa: 4.31, src: q3fy21_ip, p: 12}
+
+  karur_vysya_bank:
+    name: Karur Vysya Bank
+    kind: private_bank
+    ticker: KARURVYSYA.NS
+    sources:
+      bs_q3fy21: {provenance: secondary, doc: "Business Standard, Karur Vysya Bank Q3 FY21 results coverage, 11 Feb 2021",
+                  url: "https://www.business-standard.com/amp/article/finance/karur-vysya-bank-q3-profit-up-133-at-rs-35-crore-net-npa-down-at-2-55-121021101870_1.html"}
+      agg_fy21: {provenance: secondary, doc: "MoneyWorks4me company news page, as returned by search: FY21 gross NPA 7.85%, net NPA 3.41%",
+                 url: "https://www.moneyworks4me.com/company/news/index/id/415883"}
+    quarters:
+      "2020-12": {reported_gnpa: 7.37, proforma_gnpa: 9.07, src: bs_q3fy21}
+      "2021-03": {reported_gnpa: 7.85, reported_nnpa: 3.41, src: agg_fy21}
+
 # System-level counterpart, for scale. SECONDARY: Business Today, 23 Mar 2021, quoting
 # rating agency ICRA (Anil Gupta, VP financial sector ratings), "for all banks". An ICRA
 # compilation, not an RBI figure, and read from the news article, not from ICRA's note.
@@ -237,9 +407,13 @@ system_proforma:
   source: "https://www.businesstoday.in/amp/industry/banks/story/sc-verdict-on-loan-moratorium-banks-gross-npas-to-increase-by-rs-13-lakh-crore-291532-2021-03-23"
 
 known_gaps:
+  - "23 lenders: 11 from the pilot and 12 added in the scale-up. The added twelve lean more on secondary sources."
+  - "Shriram Transport Finance has no Mar-2021 figure yet, so it is in the hidden-stress table but not the catch-up test."
+  - "Low-precision proforma figures: Yes Bank (reported in coverage only as 20 per cent) and Canara Bank (about 8.95%, from an earnings call quoted in search results)."
+  - "Looked for and NOT found, so left out: proforma ratios for Bank of India, City Union Bank (rupee slippage only), Mahindra Finance and Cholamandalam (rupee amounts only)."
   - "Stage 1 (moratorium share of book, Apr/Jun 2020) is filled for Bajaj Finance only."
   - "Stage 3 (restructured share) is filled for Dec-2020 / Mar-2021 where the filing already read happened to state it; Sep-2021 is not collected."
   - "Stage 4 (FY22 outcome: reported GNPA plus write-offs) is not collected."
   - "Sep-2020 proforma is missing for Bandhan Bank, IDFC First Bank and PNB."
-  - "ICICI Bank's gross proforma ratios, HDFC Bank's and Axis Bank's Mar-2021 figures, and all of PNB are secondary-sourced."
-  - "11 lenders only. Not a random sample: chosen as large, well-covered names, so it over-represents private banks."
+  - "Secondary-sourced among the pilot eleven: ICICI Bank gross proforma ratios, HDFC Bank and Axis Bank Mar-2021 figures, and all of PNB."
+  - "Not a random sample: lenders were chosen because a proforma figure could be found, so lenders that disclosed clearly are over-represented."

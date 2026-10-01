@@ -1,0 +1,37 @@
+# The date each panel lender announced its results for the quarter ended 31 Dec 2020 --
+# the day its Dec-2020 proforma GNPA became public. Used by credit_risk/market_test.py.
+#
+# `basis` says how the date is known:
+#   filing   -- printed on the lender's own filing in sources/filings/
+#   coverage -- date of same-day press coverage of the results
+#   inferred -- no direct statement found; reasoning given in `note`
+# The event window (close before the announcement day to close of the trading day after)
+# is wide enough to absorb an after-hours or weekend announcement, but NOT a date that is
+# wrong by a day or more -- hence the basis column.
+
+dates:
+  hdfc_bank:                  {date: "2021-01-16", basis: coverage, note: "a Saturday"}
+  icici_bank:                 {date: "2021-01-30", basis: filing, note: "a Saturday"}
+  axis_bank:                  {date: "2021-01-27", basis: coverage}
+  kotak_mahindra_bank:        {date: "2021-01-25", basis: filing}
+  sbi:                        {date: "2021-02-04", basis: filing}
+  indusind_bank:              {date: "2021-01-29", basis: coverage}
+  bandhan_bank:               {date: "2021-01-21", basis: filing, note: "earnings call held 21 Jan 2021"}
+  bajaj_finance:              {date: "2021-01-20", basis: filing}
+  idfc_first_bank:            {date: "2021-01-30", basis: filing, note: "a Saturday"}
+  rbl_bank:                   {date: "2021-01-28", basis: filing}
+  pnb:                        {date: "2021-02-05", basis: coverage}
+  bank_of_baroda:             {date: "2021-01-27", basis: coverage}
+  federal_bank:               {date: "2021-01-20", basis: filing}
+  au_small_finance_bank:      {date: "2021-01-28", basis: filing}
+  union_bank:                 {date: "2021-01-29", basis: inferred, note: "coverage is dated 30 Jan (a Saturday) and reads as next-morning reporting"}
+  canara_bank:                {date: "2021-01-27", basis: filing}
+  yes_bank:                   {date: "2021-01-22", basis: coverage}
+  dcb_bank:                   {date: "2021-01-23", basis: inferred, note: "analyst result review is dated 23 Jan (a Saturday); one aggregator shows 25 Jan"}
+  indian_bank:                {date: "2021-01-22", basis: coverage}
+  ujjivan_small_finance_bank: {date: "2021-02-03", basis: coverage}
+  equitas_small_finance_bank: {date: "2021-01-28", basis: filing}
+  shriram_transport_finance:  {date: "2021-01-28", basis: filing}
+  karur_vysya_bank:           {date: "2021-02-11", basis: coverage}
+
+benchmark_ticker: "^NSEBANK"
