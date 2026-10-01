@@ -1,6 +1,10 @@
+import hashlib
 import math
 
 import pytest
+import yaml
+
+from credit_risk.data_loader import DATA_DIR
 
 from credit_risk.forecast import (
     BENCHMARK, METHODS, QuarterlyPanel, _fit, _ols, _solve, backtest, load_quarterly_panel,
@@ -92,3 +96,30 @@ def test_real_forecasts_are_ordered_and_bracketed():
         assert f.interval_80[0] < f.forecast_gnpa < f.interval_80[1]
         assert math.isfinite(f.forecast_gnpa) and f.forecast_gnpa > 0
     assert BENCHMARK == "no_change"
+
+
+PREREG = DATA_DIR.parent / "forecasts" / "2026-09_preregistration.yaml"
+
+
+def test_preregistration_hash_matches_its_input_data():
+    """The hash was taken on Windows, where the working copy has CRLF line endings while
+    git stores LF. The pre-registration file is never edited, so the check normalises to
+    CRLF instead: same content, the line endings the hash was actually taken over."""
+    recorded = yaml.safe_load(open(PREREG, encoding="utf-8"))["input_data"]["sha256"]
+    raw = (DATA_DIR / "quarterly_gnpa.yaml").read_bytes()
+    as_crlf = raw.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")
+    assert hashlib.sha256(as_crlf).hexdigest() == recorded
+
+
+def test_preregistered_forecasts_are_exactly_what_the_code_produces():
+    prereg = yaml.safe_load(open(PREREG, encoding="utf-8"))
+    panel = load_quarterly_panel(exclude=tuple(prereg["excluded_lenders"]))
+    scores, residuals = backtest(panel)
+    method = select_method(scores)
+    assert method == prereg["method"]["selected"]
+    recomputed = {f.symbol: f for f in make_forecasts(panel, method, residuals[method])}
+    assert len(prereg["forecasts"]) == len(recomputed) == 35
+    for entry in prereg["forecasts"]:
+        f = recomputed[entry["symbol"]]
+        assert (f.forecast_gnpa, f.benchmark_gnpa, list(f.interval_80)) == (
+            entry["forecast_gnpa"], entry["benchmark_gnpa"], entry["interval_80"])
