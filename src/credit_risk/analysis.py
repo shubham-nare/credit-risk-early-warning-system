@@ -121,11 +121,15 @@ def compute_shadow_gnpa(reported_gnpa_pct: float, restructured_pct: float, k: fl
     extreme possible assumption -- every restructured rupee counted as bad), this closes
     at most ~18-23% of the gap between RBI's own COVID stress-test baseline and the real
     reported outcome (see tests). Formal restructuring alone does not explain RBI's
-    forecast miss. The remaining gap most plausibly reflects the much larger and harder-
-    to-quantify blanket loan moratorium (which suspended overdue-classification for far
-    more borrowers than formally restructured their loans) and/or genuine economic
-    resilience -- this module does not claim to apportion between those two, since no
-    real data here supports doing so precisely.
+    forecast miss.
+
+    REVISED 2026-10-02. This docstring used to say the remaining gap "most plausibly
+    reflects" the blanket loan moratorium and/or genuine resilience. The lender panel
+    (standstill.py) has since measured the recognition-suppression channel directly, and
+    it is small: system-wide only ~1.2pp of GNPA was unreported in Dec 2020, and by the
+    March 2021 reading the standstill had been vacated and the moratorium had been over
+    for seven months, so that stress had already surfaced. What is left unexplained is
+    write-offs (not yet measured here) and genuine resilience.
     """
     if not 0 <= k <= 1:
         raise ValueError("k must be between 0 and 1")

@@ -11,6 +11,14 @@
 # secondary sources each that cite the FSR directly on its release day (Business
 # Standard, current-affairs summary sites), not primary-verified. A worthwhile follow-up,
 # not done here since the existing secondary corroboration is already reasonably strong.
+#
+# UPDATE 2026-10-02: that follow-up is now done by a different route. RBI's own press
+# release for each FSR is plain HTML and quotes these figures; see
+# data/rbi_stress_track_record.yaml, which is primary-sourced and covers Dec 2014 to
+# Jun 2026. Both stress projections below and the 2020-03, 2021-03 and 2021-09 actuals
+# match it exactly (tests/test_track_record.py checks this). One real difference: RBI
+# first published March 2018 as 11.6% (June 2018 press release) and restated it as 11.5%
+# six months later; this file holds the restated figure.
 
 actual_gnpa_pct:
   "2018-03": 11.5   # secondary: Business Standard "Statsguru," citing FSR

@@ -1,0 +1,91 @@
+# Every macro stress-test BASELINE projection of the scheduled-commercial-bank (SCB) gross
+# NPA ratio that RBI has published in its Financial Stability Report (FSR), December 2014
+# to June 2026, with the actual outcome at each target date.
+#
+# PROVENANCE: PRIMARY throughout. Each figure was read from RBI's own website -- either
+# the press release for that FSR edition (`pr`: rbi.org.in/Scripts/BS_PressReleaseDisplay
+# .aspx?prid=N) or the FSR's Chapter II as published in HTML (`pub`: rbi.org.in/Scripts/
+# PublicationReportDetails.aspx?ID=N). scripts/fetch_rbi_fsr.py downloads the press
+# releases; scripts/html_grep.py prints the sentence. (The FSR *PDFs* on rbidocs.rbi.org.in
+# are CAPTCHA-blocked to scripts; these HTML pages are not.)
+#
+# WHAT A "BASELINE" IS, AND IS NOT. RBI presents these as conditional scenario results,
+# not as forecasts: the baseline is the path implied by its model under the macro outlook
+# at the time. From June 2022 the text adds "under the assumption of no further regulatory
+# reliefs". Scoring them against outcomes is still a fair test of how informative the
+# published number was -- but it is this project's framing, not RBI's.
+#
+# COMPARABILITY CAVEATS:
+#   - From December 2024 the projection is stated for "46 banks" (not "all SCBs") and the
+#     horizon lengthens from about one year to 18-24 months.
+#   - Actuals are recorded as FIRST PUBLISHED (the as-of figure in the next FSR). Later
+#     revisions are noted, not substituted.
+
+actual_gnpa_pct:
+  "2014-09": {value: 4.5,  src: {pub: 805}}
+  "2015-03": {value: 4.6,  src: {pub: 817}}
+  "2015-09": {value: 5.1,  src: {pub: 831}}
+  "2016-03": {value: 7.6,  src: {pr: 37342}, note: "restated as 7.8 in the Dec 2016 press release (prid 39074)"}
+  "2016-09": {value: 9.1,  src: {pr: 39074}}
+  "2017-03": {value: 9.6,  src: {pub: 872}}
+  "2017-09": {value: 10.2, src: {pr: 42642}}
+  "2018-03": {value: 11.6, src: {pr: 44305}, note: "restated as 11.5 in the Dec 2018 press release (prid 45862)"}
+  "2018-09": {value: 10.8, src: {pr: 45862}}
+  "2019-03": {value: 9.3,  src: {pr: 47426}}
+  "2019-09": {value: 9.3,  src: {pr: 48982}}
+  "2020-03": {value: 8.5,  src: {pr: 50122}, note: "restated as 8.4 in the Jan 2021 press release (prid 50949)"}
+  "2020-09": {value: 7.5,  src: {pr: 50949}}
+  "2021-03": {value: 7.48, src: {pr: 51832}}
+  "2021-09": {value: 6.9,  src: {pr: 52996}}
+  "2022-03": {value: 5.9,  src: {pr: 53939}}
+  "2022-09": {value: 5.0,  src: {pr: 54955}}
+  "2023-03": {value: 3.9,  src: {pr: 55943}}
+  "2023-09": {value: 3.2,  src: {pr: 57005}}
+  "2024-03": {value: 2.8,  src: {pr: 58169}}
+  "2024-09": {value: 2.6,  src: {pub: 1285}}
+  "2025-03": {value: 2.3,  src: {pub: 1300}}
+  "2025-09": {value: 2.2,  src: {pub: 1314}, note: "all SCBs; the same chapter gives 2.1 for the 46-bank stress-test sample"}
+  "2026-03": {value: 1.8,  src: {pub: 1325}}
+
+# One entry per (edition, target date). `as_of` is the starting point RBI quoted.
+projections:
+  - {edition: "FSR Dec 2014", as_of: "2014-09", target: "2016-03", baseline: 4.0,  severe: 6.3,   src: {pub: 805}}
+  - {edition: "FSR Jun 2015", as_of: "2015-03", target: "2015-09", baseline: 4.8,                 src: {pub: 817}}
+  - {edition: "FSR Jun 2015", as_of: "2015-03", target: "2016-03", baseline: 4.7,  severe: 5.9,   src: {pub: 817}}
+  - {edition: "FSR Dec 2015", as_of: "2015-09", target: "2016-09", baseline: 5.4,                 src: {pub: 831}}
+  - {edition: "FSR Dec 2015", as_of: "2015-09", target: "2017-03", baseline: 5.2,  severe: 6.9,   src: {pub: 831}}
+  - {edition: "FSR Jun 2016", as_of: "2016-03", target: "2017-03", baseline: 8.5,  severe: 9.3,   src: {pub: 848}}
+  - {edition: "FSR Dec 2016", as_of: "2016-09", target: "2017-03", baseline: 9.8,                 src: {pub: 861}}
+  - {edition: "FSR Dec 2016", as_of: "2016-09", target: "2018-03", baseline: 10.1,                src: {pub: 861}}
+  - {edition: "FSR Jun 2017", as_of: "2017-03", target: "2018-03", baseline: 10.2,                src: {pub: 872}}
+  - {edition: "FSR Dec 2017", as_of: "2017-09", target: "2018-03", baseline: 10.8,                src: {pr: 42642}}
+  - {edition: "FSR Dec 2017", as_of: "2017-09", target: "2018-09", baseline: 11.1,                src: {pr: 42642}}
+  - {edition: "FSR Jun 2018", as_of: "2018-03", target: "2019-03", baseline: 12.2,                src: {pr: 44305}}
+  - {edition: "FSR Dec 2018", as_of: "2018-09", target: "2019-03", baseline: 10.3,                src: {pr: 45862}}
+  - {edition: "FSR Jun 2019", as_of: "2019-03", target: "2020-03", baseline: 9.0,                 src: {pr: 47426}}
+  - {edition: "FSR Dec 2019", as_of: "2019-09", target: "2020-09", baseline: 9.9,                 src: {pr: 48982}}
+  - {edition: "FSR Jul 2020", as_of: "2020-03", target: "2021-03", baseline: 12.5, severe: 14.7,  src: {pr: 50122}}
+  - {edition: "FSR Jan 2021", as_of: "2020-09", target: "2021-09", baseline: 13.5, severe: 14.8,  src: {pr: 50949}}
+  - {edition: "FSR Jul 2021", as_of: "2021-03", target: "2022-03", baseline: 9.8,  severe: 11.22, src: {pr: 51832}}
+  - {edition: "FSR Dec 2021", as_of: "2021-09", target: "2022-09", baseline: 8.1,  severe: 9.5,   src: {pr: 52996}}
+  - {edition: "FSR Jun 2022", as_of: "2022-03", target: "2023-03", baseline: 5.3,                 src: {pub: 1209}}
+  - {edition: "FSR Dec 2022", as_of: "2022-09", target: "2023-09", baseline: 4.9,                 src: {pub: 1225}}
+  - {edition: "FSR Jun 2023", as_of: "2023-03", target: "2024-03", baseline: 3.6,                 src: {pub: 1238}}
+  - {edition: "FSR Dec 2023", as_of: "2023-09", target: "2024-09", baseline: 3.1,                 src: {pub: 1254}}
+  - {edition: "FSR Jun 2024", as_of: "2024-03", target: "2025-03", baseline: 2.5,                 src: {pub: 1270}}
+  - {edition: "FSR Dec 2024", as_of: "2024-09", target: "2026-03", baseline: 3.0,                 src: {pub: 1285}, note: "46 banks; 18-month horizon"}
+  # Still open: the target date has not been reported yet.
+  - {edition: "FSR Jun 2025", as_of: "2025-03", target: "2027-03", baseline: 2.5,                 src: {pub: 1300}, note: "46 banks; adverse scenarios 5.6 and 5.3"}
+  - {edition: "FSR Dec 2025", as_of: "2025-09", target: "2027-03", baseline: 1.9,                 src: {pub: 1314}, note: "46 banks, from 2.1 for that sample"}
+  - {edition: "FSR Jun 2026", as_of: "2026-03", target: "2028-03", baseline: 1.9,                 src: {pub: 1325}, note: "46 banks"}
+
+unscored:
+  - edition: "FSR Jun 2014"
+    reason: "Baseline given as a range, not a point: 'around 4 per cent to 4.1 per cent during the financial year 2014-15' (severe: 5.1 by March 2015). The March 2015 actual was 4.6."
+    src: {pub: 791}
+  - edition: "FSR Jun 2010 to Dec 2013"
+    reason: "Press releases for these eight editions state no GNPA baseline; their chapters have not been read."
+
+# RBI also publishes a baseline for a SAMPLE of NBFCs (e.g. FSR Dec 2025: 2.3% in Sep 2025
+# to 2.9% in Sep 2026; FSR Jun 2026: 2.4% in Mar 2026 to 2.8% in Mar 2027). Not included:
+# the sample changes between editions, so projection and outcome are not like-for-like.
